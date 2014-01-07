@@ -40,7 +40,7 @@ public class GraphView extends JPanel {
 		System.out.println("Nr of mouseListeners: " + getMouseListeners().length);
 	}
 	
-	public boolean addNode(Rect rect) {
+	public boolean addNode(Rect rect) { //TODO is this method implemented correctly? try placing nodes ontop of eachother.
 		Node newNode = graph.addNode(rect.centerX(), rect.centerY());
 		if (newNode == null)
 			return false;

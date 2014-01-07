@@ -24,6 +24,7 @@ import javax.swing.JTextField;
 import model.Graph;
 import view.GraphView;
 import controller.CheckNodeTool;
+import controller.CreateTool;
 import controller.EdgeTool;
 import controller.NodeTool;
 
@@ -42,15 +43,15 @@ public class MainFrame extends JFrame {
 	private JMenuItem reIndentify = new JMenuItem("Re-Indentify");
 	private JMenuItem matrix = new  JMenuItem("Matrix");
 	
-	private JButton nodeButton = new JButton("1.Node");
-	private JButton edgeButton = new JButton("2.Edge");
-	private JButton checkNodeButton = new JButton("3.CheckNode");
+	private JButton createButton = new JButton("1.Create");
+	private JButton destoryButton = new JButton("2.Destroy");
+	private JButton inspectButton = new JButton("3.Inspect");
 	
 	private GraphView graphView;
 	private Graph graph;
 	
 	private EdgeTool edgeTool; //ha två olika verktyg. ett lägg till ett ta bort. vill man ta bort en nod klicka på den. ta bort kanter dra över dem.
-	private NodeTool nodeTool;
+	private CreateTool createTool;
 	private CheckNodeTool checkNodeTool;
 	
 	public  MainFrame() {
@@ -73,9 +74,9 @@ public class MainFrame extends JFrame {
 		setJMenuBar(menuBar);
 		//***************************
 		
-		nodeButton.setMnemonic(KeyEvent.VK_1);
-		edgeButton.setMnemonic(KeyEvent.VK_2);
-		checkNodeButton.setMnemonic(KeyEvent.VK_3);
+		createButton.setMnemonic(KeyEvent.VK_1);
+		destoryButton.setMnemonic(KeyEvent.VK_2);
+		inspectButton.setMnemonic(KeyEvent.VK_3);
 		
 		// **** NODE INFO DISPLAY *****
 		JPanel displayNodeInfo = new JPanel(new GridLayout(2, 1));
@@ -87,7 +88,7 @@ public class MainFrame extends JFrame {
 		
 		graph = new Graph();
 		graphView = new GraphView(graph);
-		nodeTool = new NodeTool(graphView);
+		createTool = new CreateTool(graphView);
 		edgeTool = new EdgeTool(graphView);
 		checkNodeTool = new CheckNodeTool(graphView, nodeId, neighbours);
 		
@@ -97,9 +98,9 @@ public class MainFrame extends JFrame {
 		
 		// ********* EAST PANEL *************
 		JPanel northPanel = new JPanel(new GridLayout(1, 0));
-		northPanel.add(nodeButton);
-		northPanel.add(edgeButton);
-		northPanel.add(checkNodeButton);
+		northPanel.add(createButton);
+		northPanel.add(destoryButton);
+		northPanel.add(inspectButton);
 		northPanel.add(displayNodeInfo);
 		//***********************************
 		
@@ -110,7 +111,7 @@ public class MainFrame extends JFrame {
 		pack();
 		
 		//Standard start tool is NodeTool
-		graphView.setActiveTool(nodeTool);
+		graphView.setActiveTool(createTool);
 		
 	}
 
@@ -151,15 +152,15 @@ public class MainFrame extends JFrame {
 	private void initializeActionListeners() {
 		
 		
-		nodeButton.addActionListener(new ActionListener() {
+		createButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				graphView.setActiveTool(nodeTool);
+				graphView.setActiveTool(createTool);
 			}
 		});
 
-		edgeButton.addActionListener(new ActionListener() {
+		destoryButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -167,7 +168,7 @@ public class MainFrame extends JFrame {
 			}
 		});
 		
-		checkNodeButton.addActionListener(new ActionListener() {
+		inspectButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
