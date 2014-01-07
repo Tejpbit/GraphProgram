@@ -8,12 +8,12 @@ import view.EdgeView;
 import view.GraphView;
 import view.NodeView;
 
-public class CheckNodeTool extends Tool{
+public class InspectTool extends Tool{
 
 	JTextField idField;
 	JTextField neighbourField;
 	
-	public CheckNodeTool(GraphView graphMap, JTextField idField, JTextField neighbourField) {
+	public InspectTool(GraphView graphMap, JTextField idField, JTextField neighbourField) {
 		super(graphMap);
 		this.idField = idField;
 		this.neighbourField = neighbourField;

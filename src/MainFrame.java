@@ -23,10 +23,8 @@ import javax.swing.JTextField;
 
 import model.Graph;
 import view.GraphView;
-import controller.CheckNodeTool;
 import controller.CreateTool;
-import controller.EdgeTool;
-import controller.NodeTool;
+import controller.InspectTool;
 
 
 public class MainFrame extends JFrame {
@@ -44,15 +42,14 @@ public class MainFrame extends JFrame {
 	private JMenuItem matrix = new  JMenuItem("Matrix");
 	
 	private JButton createButton = new JButton("1.Create");
-	private JButton destoryButton = new JButton("2.Destroy");
+	private JButton destroyButton = new JButton("2.Destroy");
 	private JButton inspectButton = new JButton("3.Inspect");
 	
 	private GraphView graphView;
 	private Graph graph;
 	
-	private EdgeTool edgeTool; //ha två olika verktyg. ett lägg till ett ta bort. vill man ta bort en nod klicka på den. ta bort kanter dra över dem.
 	private CreateTool createTool;
-	private CheckNodeTool checkNodeTool;
+	private InspectTool checkNodeTool;
 	
 	public  MainFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -75,7 +72,7 @@ public class MainFrame extends JFrame {
 		//***************************
 		
 		createButton.setMnemonic(KeyEvent.VK_1);
-		destoryButton.setMnemonic(KeyEvent.VK_2);
+		destroyButton.setMnemonic(KeyEvent.VK_2);
 		inspectButton.setMnemonic(KeyEvent.VK_3);
 		
 		// **** NODE INFO DISPLAY *****
@@ -89,8 +86,7 @@ public class MainFrame extends JFrame {
 		graph = new Graph();
 		graphView = new GraphView(graph);
 		createTool = new CreateTool(graphView);
-		edgeTool = new EdgeTool(graphView);
-		checkNodeTool = new CheckNodeTool(graphView, nodeId, neighbours);
+		checkNodeTool = new InspectTool(graphView, nodeId, neighbours);
 		
 		initializeActionListeners();
 		
@@ -99,7 +95,7 @@ public class MainFrame extends JFrame {
 		// ********* EAST PANEL *************
 		JPanel northPanel = new JPanel(new GridLayout(1, 0));
 		northPanel.add(createButton);
-		northPanel.add(destoryButton);
+		northPanel.add(destroyButton);
 		northPanel.add(inspectButton);
 		northPanel.add(displayNodeInfo);
 		//***********************************
@@ -160,11 +156,11 @@ public class MainFrame extends JFrame {
 			}
 		});
 
-		destoryButton.addActionListener(new ActionListener() {
+		destroyButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				graphView.setActiveTool(edgeTool);
+				//TODO add destroytool-switch actionlistener here
 			}
 		});
 		
@@ -207,13 +203,5 @@ public class MainFrame extends JFrame {
 				JOptionPane.showMessageDialog(MainFrame.this, new JTextArea(graphView.toString()), "Matrix", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
-		
-		ActionListener toolsActionListener = new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				
-			}
-		};
 	}
 }
