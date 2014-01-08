@@ -1,8 +1,7 @@
-package model;
+package com.tejpbit.graph.model;
 
 import java.io.Serializable;
-
-import view.Rect;
+import java.util.List;
 
 public class Node implements Serializable, Comparable<Node>{
 	
@@ -11,7 +10,7 @@ public class Node implements Serializable, Comparable<Node>{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private static final int DEFAULT_NODE_SIZE = 10;
+	private static final int DEFAULT_NODE_RADIUS = 15;
 
 	private int id;
 	private Rect rect;
@@ -24,7 +23,8 @@ public class Node implements Serializable, Comparable<Node>{
 	public Node(Graph graph, int id, int x, int y) {
 		this.graph = graph;
 		this.id = id;
-		this.rect = new Rect(x, y, x + DEFAULT_NODE_SIZE, x + DEFAULT_NODE_SIZE);
+		this.rect = new Rect(x, y, x, y);
+		this.rect.inset(- DEFAULT_NODE_RADIUS, - DEFAULT_NODE_RADIUS);
 	}
 
 	public boolean intersects(Node n) {
@@ -41,13 +41,8 @@ public class Node implements Serializable, Comparable<Node>{
 		this.id = id;
 	}
 	
-	public boolean hasEdgeTo(Node n) {
-		return graph.edgeExistBetween(this, n);
-	}
-	
-	@Override
-	public String toString() {
-		return id+"";
+	public Rect getRect() {
+		return new Rect(rect);
 	}
 	
 	public int getX() {
@@ -58,8 +53,25 @@ public class Node implements Serializable, Comparable<Node>{
 		return rect.top;
 	}
 	
+	public int centerX() {
+		return rect.centerX();
+	}
+	
+	public int centerY() {
+		return rect.centerY();
+	}
+	
+	public boolean hasEdgeTo(Node n) {
+		return graph.edgeExistBetween(this, n);
+	}
+	
+	@Override
+	public String toString() {
+		return id+"";
+	}
+	
 	public void placeAt(int x, int y) {
-		rect = new Rect(x, y, DEFAULT_NODE_SIZE, DEFAULT_NODE_SIZE);
+		rect = new Rect(x, y, DEFAULT_NODE_RADIUS, DEFAULT_NODE_RADIUS);
 	}
 	
 	public void move(int dx, int dy) {
@@ -75,5 +87,9 @@ public class Node implements Serializable, Comparable<Node>{
 		if (dy == 0)
 			return dx;
 		return dy;
+	}
+
+	public List<Edge> getEdges() {
+		return graph.getEdgesTo(this);
 	}
 }

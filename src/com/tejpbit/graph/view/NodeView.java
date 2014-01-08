@@ -1,48 +1,44 @@
-package view;
+package com.tejpbit.graph.view;
 
 
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.List;
 
-import model.Node;
+import com.tejpbit.graph.model.Node;
 
 public class NodeView implements GraphComponent {
 
 	public static final int radius = 10;
 	
-	private Rect rect;
 	private Color c = Color.RED;
 	
 	private GraphView graphView;
 	private final Node nodeModel;
 	
-	public NodeView(GraphView graphView, Node nodeModel, Rect rect) {
+	public NodeView(GraphView graphView, Node nodeModel) {
 		this.graphView = graphView;
-		this.rect = rect;
 		this.nodeModel = nodeModel;
 	}
 	
 	public int getX() {
-		return rect.left;
+		return nodeModel.getX();
 	}
 	
 	public int getY() {
-		return rect.top;
+		return nodeModel.getY();
 	}
 	
 	public int getCenterX(){
-		return rect.centerX();
-	}
-	
-	public boolean intersects(NodeView n) {
-		System.out.println("intersects= " + rect.intersect(n.rect));
-		return rect.intersect(n.rect);
+		return nodeModel.centerX();
 	}
 	
 	public int getCenterY(){
-		return rect.centerY();
+		return nodeModel.centerY();
+	}
+	
+	public boolean intersects(NodeView n) {
+		return nodeModel.intersects(n.nodeModel);
 	}
 	
 	public boolean hasEdgeTo(NodeView n) {
@@ -52,19 +48,14 @@ public class NodeView implements GraphComponent {
 	
 	public void paint(Graphics g) {
 		g.setColor(c);
-		g.fillOval(getX(), getY(), rect.right - getX(), rect.bottom - rect.top);
-	}
-
-	public Rect getRect() {
-		return rect;
+		g.fillOval(	getX(),
+					getY(),
+					nodeModel.getRect().right - getX(),
+					nodeModel.getRect().bottom - nodeModel.getRect().top);
 	}
 	
 	public Node getNodeModel() {
 		return nodeModel;
-	}
-
-	public List<EdgeView> getConnectingEdges() {
-		return graphView.getConnectedEdges(this);
 	}
 	
 	@Override

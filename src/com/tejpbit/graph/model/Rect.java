@@ -1,4 +1,4 @@
-package view;
+package com.tejpbit.graph.model;
 
 /**
  * Rect holds four integer coordinates for a rectangle. The rectangle is

@@ -1,3 +1,4 @@
+package com.tejpbit.graph.controller;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -21,10 +22,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import model.Graph;
-import view.GraphView;
-import controller.CreateTool;
-import controller.InspectTool;
+import com.tejpbit.graph.model.Graph;
+import com.tejpbit.graph.view.GraphView;
 
 
 public class MainFrame extends JFrame {
@@ -49,6 +48,7 @@ public class MainFrame extends JFrame {
 	private Graph graph;
 	
 	private CreateTool createTool;
+	private DestroyTool destroyTool;
 	private InspectTool checkNodeTool;
 	
 	public  MainFrame() {
@@ -85,8 +85,10 @@ public class MainFrame extends JFrame {
 		
 		graph = new Graph();
 		graphView = new GraphView(graph);
-		createTool = new CreateTool(graphView);
-		checkNodeTool = new InspectTool(graphView, nodeId, neighbours);
+		graph.setViewCallBack(graphView);
+		createTool = new CreateTool();
+		destroyTool = new DestroyTool();
+		checkNodeTool = new InspectTool(nodeId, neighbours);
 		
 		initializeActionListeners();
 		
@@ -106,7 +108,7 @@ public class MainFrame extends JFrame {
 		setVisible(true);
 		pack();
 		
-		//Standard start tool is NodeTool
+		//Standard start tool is CreateTool
 		graphView.setActiveTool(createTool);
 		
 	}
@@ -160,7 +162,7 @@ public class MainFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//TODO add destroytool-switch actionlistener here
+				graphView.setActiveTool(destroyTool);
 			}
 		});
 		
@@ -203,5 +205,9 @@ public class MainFrame extends JFrame {
 				JOptionPane.showMessageDialog(MainFrame.this, new JTextArea(graphView.toString()), "Matrix", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
+	}
+	
+	public static void main(String[] args) {
+		new MainFrame();
 	}
 }

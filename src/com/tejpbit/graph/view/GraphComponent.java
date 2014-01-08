@@ -1,4 +1,4 @@
-package view;
+package com.tejpbit.graph.view;
 import java.awt.Graphics;
 
 
