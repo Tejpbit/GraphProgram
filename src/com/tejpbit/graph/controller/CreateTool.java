@@ -14,12 +14,12 @@ import com.tejpbit.graph.view.NodeView;
 /**
  * 
  * @author André
- * tool to create edges and verticies, also used for moving edges.
+ * tool to create Nodes and edges.
  */
 public class CreateTool extends Tool implements IExtraPaintObject {
 
 	private Node firstNode;
-	int x, y;
+	int x1, y1, x2, y2;
 	
 	/**
 	 * Gets the node at where the press occured. </br>
@@ -27,22 +27,17 @@ public class CreateTool extends Tool implements IExtraPaintObject {
 	 */
 	@Override
 	public void mousePressed(GraphView gView, int x, int y) {
-		System.out.println("Press");
 		firstNode = gView.getGraph().getNodeAt(x, y);
+		this.x1 = x;
+		this.y1 = y;
 	}
 	
 	@Override
 	public void mouseDragged(GraphView gView, int x, int y) {
-		this.x = x;
-		this.y = y;
+		this.x2 = x;
+		this.y2 = y;
 		gView.addExtraPaintObject(this);
 		gView.repaint();
-	}
-	
-	@Override
-	public void paint(Graphics g) {
-		g.setColor(Color.BLUE);
-		g.drawLine(firstNode.centerX(), firstNode.centerY(), x, y);
 	}
 	
 	/**
@@ -50,35 +45,43 @@ public class CreateTool extends Tool implements IExtraPaintObject {
 	 */
 	@Override
 	public void mouseReleased(GraphView gView, int x, int y) {
-		System.out.println("Release");
 		Node n = gView.getGraph().getNodeAt(x, y);
 		
-		if (n == null || firstNode == null) {
-			System.out.println("n: " + n);
-			System.out.println("firstNode: " + firstNode);
-			gView.repaint();
-			return;
+		if (n != null && firstNode != null) {
+			gView.getGraph().addEdge(firstNode, n);
+			firstNode = null;	
+		} else if (n == null && firstNode == null) {
+			
 		}
 		
-		gView.getGraph().addEdge(firstNode, n);
-		firstNode = null;
 		gView.repaint();
 	}
-	
 	
 	/**
 	 * Method for mouse clicked. Adds a node if possible. 
 	 */
 	@Override
-	public void mouseClicked(GraphView gView, int x, int y) { //TODO But how should one move nodes?
+	public void mouseClicked(GraphView gView, int x, int y) {
 		System.out.println("Click");
 		Rect rect = new Rect(x, y , x, y);
 		rect.inset( - NodeView.radius, - NodeView.radius);
 		
+		// TODO you don't want this import JOptionPane
 		if (! gView.getGraph().addNode(x, y)) {
-			JOptionPane.showMessageDialog(gView, "Can't place one node ontop of another.", "Bad position", JOptionPane.ERROR_MESSAGE); // TODO you don't want this import
+			JOptionPane.showMessageDialog(gView, "Can't place one node ontop of another.", "Bad position", JOptionPane.ERROR_MESSAGE);
 		}
 		
 		gView.repaint();
+	}
+
+	@Override
+	public void paint(Graphics g) {
+		g.setColor(Color.BLUE);
+		
+		if (firstNode != null)
+			g.drawLine(firstNode.centerX(), firstNode.centerY(), x2, y2);
+		else {
+			g.drawLine(x1, y1, x2, y2);
+		}
 	}
 }

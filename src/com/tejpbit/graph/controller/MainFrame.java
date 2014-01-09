@@ -49,7 +49,7 @@ public class MainFrame extends JFrame {
 	
 	private CreateTool createTool;
 	private DestroyTool destroyTool;
-	private InspectTool checkNodeTool;
+	private ManipulateTool checkNodeTool;
 	
 	public  MainFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -88,7 +88,7 @@ public class MainFrame extends JFrame {
 		graph.setViewCallBack(graphView);
 		createTool = new CreateTool();
 		destroyTool = new DestroyTool();
-		checkNodeTool = new InspectTool(nodeId, neighbours);
+		checkNodeTool = new ManipulateTool(nodeId, neighbours);
 		
 		initializeActionListeners();
 		

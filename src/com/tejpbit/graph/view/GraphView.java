@@ -7,6 +7,7 @@ import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import com.tejpbit.graph.controller.Tool;
@@ -48,14 +49,12 @@ public class GraphView extends JPanel implements MouseListener, MouseMotionListe
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		System.out.println("repint!");
-		System.out.println("number of nodes: " + nodes.size());
 		for (NodeView n : nodes)
 			n.paint(g);
 		
-		for (EdgeView e : edges) {
+		for (EdgeView e : edges)
 			e.paint(g);
-		}
+		
 		if (extraPaintObject != null) {
 			extraPaintObject.paint(g);
 			extraPaintObject = null;
