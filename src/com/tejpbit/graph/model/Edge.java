@@ -24,6 +24,10 @@ public class Edge implements Serializable{
 		return n2;
 	}
 	
+	public boolean connectsTo(Node n) {
+		return n.equals(n1) || n.equals(n2);
+	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

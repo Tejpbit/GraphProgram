@@ -1,10 +1,14 @@
 package com.tejpbit.graph.controller;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 import javax.swing.JOptionPane;
 
 import com.tejpbit.graph.model.Node;
 import com.tejpbit.graph.model.Rect;
 import com.tejpbit.graph.view.GraphView;
+import com.tejpbit.graph.view.IExtraPaintObject;
 import com.tejpbit.graph.view.NodeView;
 
 /**
@@ -12,10 +16,11 @@ import com.tejpbit.graph.view.NodeView;
  * @author André
  * tool to create edges and verticies, also used for moving edges.
  */
-public class CreateTool extends Tool {
+public class CreateTool extends Tool implements IExtraPaintObject {
 
 	private Node firstNode;
-
+	int x, y;
+	
 	/**
 	 * Gets the node at where the press occured. </br>
 	 * if no node is there then nothing will happen
@@ -24,6 +29,20 @@ public class CreateTool extends Tool {
 	public void mousePressed(GraphView gView, int x, int y) {
 		System.out.println("Press");
 		firstNode = gView.getGraph().getNodeAt(x, y);
+	}
+	
+	@Override
+	public void mouseDragged(GraphView gView, int x, int y) {
+		this.x = x;
+		this.y = y;
+		gView.addExtraPaintObject(this);
+		gView.repaint();
+	}
+	
+	@Override
+	public void paint(Graphics g) {
+		g.setColor(Color.BLUE);
+		g.drawLine(firstNode.centerX(), firstNode.centerY(), x, y);
 	}
 	
 	/**
@@ -37,6 +56,7 @@ public class CreateTool extends Tool {
 		if (n == null || firstNode == null) {
 			System.out.println("n: " + n);
 			System.out.println("firstNode: " + firstNode);
+			gView.repaint();
 			return;
 		}
 		

@@ -3,6 +3,7 @@ package com.tejpbit.graph.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Graph implements Serializable{
@@ -54,9 +55,18 @@ public class Graph implements Serializable{
 	public boolean removeNode(Node n) {
 		if (nodes.remove(n)) {
 			viewCallBack.removeNode(n);
+			removeEdgesConnectingTo(n);
 			return true;
 		}
 		return false;
+	}
+	
+	public void removeEdgesConnectingTo(Node n) {
+		for (Edge e : new LinkedList<Edge>(edges)) {
+			if (e.connectsTo(n))
+				removeEdge(e);
+		}
+			
 	}
 	
 	public boolean removeEdge(Edge e) { 
@@ -93,18 +103,42 @@ public class Graph implements Serializable{
 	}
 	
 	public List<Node> getNodes() {
-		return nodes;
+		return new ArrayList<Node>(nodes);
 	}
 	
 	public List<Edge> getEdges() {
-		return edges;
+		return new ArrayList<Edge>(edges);
 	}
 	
 	@Override
 	public String toString() {
-		return String.format("Graph Nodes=%d, Edges=%d", nodes.size(), edges.size());
+		return getMatrix();
 	}
 
+	/**
+	 * this makeMatrix method does not support multiGraphs... so don't do multiGraphs
+	 */
+	public String getMatrix() {
+		StringBuilder matrixString = new StringBuilder();
+		
+		int[][] matrix = new int[nodes.size()][nodes.size()];
+		for (int i = 0 ; i < nodes.size() ; i++){
+			for (int j = 0 ; j < nodes.size() ; j++){
+				if(i != j && edgeExistBetween(nodes.get(i), nodes.get(j)) )
+					++matrix[i][j];
+			}
+		}
+		
+		for (int i = 0 ; i < nodes.size() ; i++){
+			matrixString.append("\n");
+			for (int j = 0 ; j < nodes.size() ; j++){
+				matrixString.append(matrix[i][j]);
+			}
+		}
+		
+		return matrixString.toString().trim();
+	}
+	
 	public void reIndentifyNodes() {
 		Collections.sort(nodes);
 		

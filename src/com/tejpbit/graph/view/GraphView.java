@@ -67,31 +67,6 @@ public class GraphView extends JPanel implements MouseListener, MouseMotionListe
 		this.extraPaintObject = extraPaintObject;
 	}
 	
-//	/**
-//	 * this makeMatrix method does not support multiGraphs... so don't do multiGraphs
-//	 */
-//	//TODO method in wrong class. move it to Graph
-//	public String makeMatrix() {
-//		StringBuilder matrixString = new StringBuilder();
-//		
-//		int[][] matrix = new int[nodes.size()][nodes.size()];
-//		for (int i = 0 ; i < nodes.size() ; i++){
-//			for (int j = 0 ; j < nodes.size() ; j++){
-//				if(i != j && edges.contains(new EdgeView(nodes.get(i), nodes.get(j))))
-//					++matrix[i][j];
-//			}
-//		}
-//		
-//		for (int i = 0 ; i < nodes.size() ; i++){
-//			matrixString.append("\n");
-//			for (int j = 0 ; j < nodes.size() ; j++){
-//				matrixString.append(matrix[i][j]);
-//			}
-//		}
-//		
-//		return matrixString.toString().trim();
-//	}
-	
 	public Graph getGraph() {
 		return graph;
 	}

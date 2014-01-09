@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.geom.Line2D;
 
+import com.tejpbit.graph.model.Edge;
+import com.tejpbit.graph.model.Node;
 import com.tejpbit.graph.view.GraphView;
 import com.tejpbit.graph.view.IExtraPaintObject;
 
@@ -21,13 +23,22 @@ public class DestroyTool extends Tool implements IExtraPaintObject{
 	
 	@Override
 	public void mouseReleased(GraphView gView, int x, int y) {
-		// TODO remove all graphComponents between (x1,y1) and (x2,y2)
 		Line2D deleteLine = new Line2D.Double(x1, y1, x2, y2);
-		removeComponentsIntersectingLine(deleteLine);
-	}
-	
-	private void removeComponentsIntersectingLine(Line2D deleteLine) {
-//		graphMap. //TODO
+		
+		for (Edge e : gView.getGraph().getEdges()) {
+			Line2D edgeLine = new Line2D.Double(
+					e.getN1().centerX(),
+					e.getN1().centerY(),
+					e.getN2().centerX(),
+					e.getN2().centerY()
+					);
+			
+			if (deleteLine.intersectsLine(edgeLine)) {
+				gView.getGraph().removeEdge(e);
+			}
+		}
+		
+		gView.repaint();
 	}
 
 	@Override
@@ -38,6 +49,12 @@ public class DestroyTool extends Tool implements IExtraPaintObject{
 		gView.repaint();
 	}
 
+	@Override
+	public void mouseClicked(GraphView gView, int x, int y) {
+		Node n = gView.getGraph().getNodeAt(x, y);
+		gView.getGraph().removeNode(n);
+	}
+	
 	@Override
 	public void paint(Graphics g) {
 		g.setColor(Color.GREEN);

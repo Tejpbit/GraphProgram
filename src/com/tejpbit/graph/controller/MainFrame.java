@@ -202,7 +202,7 @@ public class MainFrame extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				JOptionPane.showMessageDialog(MainFrame.this, new JTextArea(graphView.toString()), "Matrix", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(MainFrame.this, new JTextArea(graph.toString()), "Matrix", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 	}
